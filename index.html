@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Current Affairs Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top App Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <h1 class="logo-title">Affairs<span>Prep</span></h1>
+      <select id="date-select" class="dropdown-styled" title="Select Quiz Date">
+        <option value="">Loading dates...</option>
+      </select>
+    </div>
+
+    <div class="header-right">
+      <div class="marking-scheme">
+        <label for="scheme-select">Pattern:</label>
+        <select id="scheme-select" class="dropdown-styled">
+          <option value="UPSC">UPSC (+2 / -0.66)</option>
+          <option value="SSC">SSC (+2 / -0.50)</option>
+          <option value="BANKING">Banking (+1 / -0.25)</option>
+        </select>
+      </div>
+      <button id="btn-mistake-bank" class="btn-secondary">
+        Mistake Bank <span id="mistake-badge" class="badge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main App Container -->
+  <main class="app-container">
+
+    <!-- 1. QUIZ ARENA VIEW -->
+    <section id="view-quiz" class="view-section active">
+      <div class="quiz-layout">
+        
+        <!-- Left: Question & Options Area -->
+        <div class="quiz-main-card">
+          <div class="quiz-top-bar">
+            <div class="meta-tags">
+              <span id="badge-section" class="tag tag-section">INDIA</span>
+              <span id="badge-topic" class="tag tag-topic">Economy</span>
+            </div>
+            <div class="timer-box">
+              <span class="timer-icon">⏱️</span>
+              <span id="quiz-timer">00:00</span>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <h2 id="question-text" class="question-text">Loading question...</h2>
+            <div id="options-container" class="options-grid"></div>
+          </div>
+
+          <div class="quiz-action-bar">
+            <button id="btn-prev" class="btn-nav">Previous</button>
+            <button id="btn-clear" class="btn-outline">Clear Choice</button>
+            <button id="btn-next" class="btn-nav">Next</button>
+            <button id="btn-submit" class="btn-primary">Submit Test</button>
+          </div>
+        </div>
+
+        <!-- Right: Question Palette Drawer -->
+        <aside class="quiz-sidebar">
+          <h3 class="palette-title">Question Palette</h3>
+          <div id="palette-grid" class="palette-grid"></div>
+          <div class="palette-legend">
+            <div><span class="dot answered"></span> Answered</div>
+            <div><span class="dot unanswered"></span> Unanswered</div>
+            <div><span class="dot current"></span> Current</div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- 2. RESULT & ANALYTICS VIEW -->
+    <section id="view-results" class="view-section">
+      <div class="results-card">
+        <h2 class="section-title">Performance Scorecard</h2>
+        
+        <!-- Score Highlights -->
+        <div class="stats-overview-grid">
+          <div class="stat-card">
+            <span class="stat-label">Net Score</span>
+            <span id="res-net-score" class="stat-value text-accent">0.00</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Accuracy</span>
+            <span id="res-accuracy" class="stat-value">0%</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Attempted</span>
+            <span id="res-attempted" class="stat-value">0 / 0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Avg Time / Ques</span>
+            <span id="res-avg-time" class="stat-value">0s</span>
+          </div>
+        </div>
+
+        <!-- Sectional Comparison -->
+        <h3 class="subsection-title">Sectional Performance (India vs World)</h3>
+        <div class="sectional-breakdown">
+          <div class="sectional-item">
+            <div class="sectional-head">
+              <strong>National (India)</strong>
+              <span id="res-india-score">0 / 0 (0%)</span>
+            </div>
+            <div class="progress-bar"><div id="bar-india" class="progress-fill"></div></div>
+          </div>
+          <div class="sectional-item">
+            <div class="sectional-head">
+              <strong>International (World)</strong>
+              <span id="res-world-score">0 / 0 (0%)</span>
+            </div>
+            <div class="progress-bar"><div id="bar-world" class="progress-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button id="btn-start-review" class="btn-primary">Detailed Review & Notes</button>
+          <button id="btn-retest" class="btn-secondary">Retake Test</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. REVIEW DASHBOARD VIEW -->
+    <section id="view-review" class="view-section">
+      <div class="review-header">
+        <button id="btn-back-to-results" class="btn-outline">&larr; Back to Results</button>
+        <div class="review-filters">
+          <button class="filter-chip active" data-filter="ALL">All</button>
+          <button class="filter-chip" data-filter="INCORRECT">Incorrect Only</button>
+          <button class="filter-chip" data-filter="SKIPPED">Skipped Only</button>
+        </div>
+      </div>
+      <div id="review-cards-list" class="review-cards-list"></div>
+    </section>
+
+    <!-- 4. MISTAKE BANK PRACTICE VIEW -->
+    <section id="view-mistakes" class="view-section">
+      <div class="mistake-header">
+        <h2>Revision Sandbox (Mistake Bank)</h2>
+        <button id="btn-close-mistakes" class="btn-outline">&times; Exit Revision</button>
+      </div>
+      <p class="mistake-subtitle">Pichle galat questions ka revision karein. Sahi solve karne par remove ho jayenge.</p>
+      <div id="mistake-list-container" class="mistake-cards-list"></div>
+    </section>
+
+  </main>
+
+  <!-- Resume Session Confirmation Modal -->
+  <div id="resume-modal" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <h3>Incomplete Test Detected</h3>
+      <p id="resume-modal-text">Aapka pichla test adhoora chhoot gaya tha. Kya aap wahi se resume karna chahte hain?</p>
+      <div class="modal-actions">
+        <button id="btn-modal-resume" class="btn-primary">Resume</button>
+        <button id="btn-modal-reset" class="btn-outline">Start Fresh</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
